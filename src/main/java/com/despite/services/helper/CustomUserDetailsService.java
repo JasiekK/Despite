@@ -1,4 +1,4 @@
-package com.despite.config;
+package com.despite.services.helper;
 
 import com.despite.entities.Role;
 import com.despite.entities.User;
