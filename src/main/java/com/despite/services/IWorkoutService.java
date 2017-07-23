@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IWorkoutService {
-    void insert(Workout workout, Principal principal);
+    Optional<Long> insert(Workout workout, Principal principal);
     Optional<List<Workout>> findByUserId(Long userId);
+    Optional<List<Workout>> findAllWorkout();
 
+    void updateWorkout(Workout workout, Long workoutId);
 }

@@ -13,5 +13,21 @@ import java.util.HashSet;
 
 public class WorkoutRepositoryTest {
 
+    @Test
+    public void test() {
+        Workout workout = new Workout("Nazwa treningu",
+                new User("Imie", "haslo", Arrays.asList(new Role("USER"))),
+                5,
+                new HashSet<>(Arrays.asList(
+                        new Exercise("berpisy", 1),
+                        new Exercise("przysiady", 2),
+                        new Exercise("pompki", 3),
+                        new Exercise("brzuszi", 4)))
+        );
+
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(workout));
+    }
+
 
 }

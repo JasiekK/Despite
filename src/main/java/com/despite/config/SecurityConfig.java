@@ -13,10 +13,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/workout/{userId}").access("@authz.check(#userId,principal)")
+                .antMatchers("/api/workouts/{workoutId}").authenticated()
+                .antMatchers("/api/workouts/{userId}").access("@authz.check(#userId,principal)")
                 .anyRequest()
                 .authenticated().and().httpBasic();
 

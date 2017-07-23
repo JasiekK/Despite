@@ -7,17 +7,19 @@ import com.despite.services.helper.PrincipalResolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
-public class WorkoutService implements IWorkoutService{
+public class WorkoutService implements IWorkoutService {
 
     private final Logger log = LogManager.getLogger(WorkoutService.class);
 
@@ -31,17 +33,26 @@ public class WorkoutService implements IWorkoutService{
     }
 
     @Override
-    public void insert(Workout workout, Principal principal) {
+    public Optional<Long> insert(Workout workout, Principal principal) {
         workout.setCreator(principalResolver.getUser(principal));
-        workout.setCreator(principalResolver.getUser(principal));
-        workoutRepository.save(workout);
-
-        log.info("add new workout: {}, by: {}", workout.getName(), principal.getName());
+        return Optional.ofNullable(workoutRepository.save(workout).getId());
     }
 
     @Override
     public Optional<List<Workout>> findByUserId(Long userId) {
-            return Optional.ofNullable(workoutRepository.findByCreatorId(userId));
+        return Optional.ofNullable(workoutRepository.findAllByCreatorId(userId));
     }
 
+    @Override
+    public Optional<List<Workout>> findAllWorkout() {
+        return Optional.ofNullable(workoutRepository.findAllByPrincipal());
+    }
+
+    @Override
+    public void updateWorkout(Workout workout, Long workoutId) {
+        if (Optional.ofNullable(workoutRepository.findOne(workout.getId())).isPresent())
+            workoutRepository.save(workout);
+        else
+            throw new EntityNotFoundException(String.format("Workout with ID %d not exist!", workoutId));
+    }
 }
