@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/workouts/{workoutId}").authenticated()
-                .antMatchers("/api/workouts/{userId}").access("@authz.check(#userId,principal)")
+                //.antMatchers("/api/workouts/{userId}").access("@authz.check(#userId,principal)")
                 .anyRequest()
                 .authenticated().and().httpBasic();
 

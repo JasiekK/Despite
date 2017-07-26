@@ -7,9 +7,7 @@ import com.despite.services.helper.PrincipalResolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -39,8 +37,8 @@ public class WorkoutService implements IWorkoutService {
     }
 
     @Override
-    public Optional<List<Workout>> findByUserId(Long userId) {
-        return Optional.ofNullable(workoutRepository.findAllByCreatorId(userId));
+    public Optional<Workout> findByWorkoutsId(Long workoutsId) {
+        return Optional.ofNullable(workoutRepository.findOne(workoutsId));
     }
 
     @Override

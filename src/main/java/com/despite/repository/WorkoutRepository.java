@@ -14,9 +14,6 @@ import java.util.List;
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
-
-    List<Workout> findAllByCreatorId(Long id);
-
     @Query("select w from Workout w where w.creator.id = ?#{principal.id}")
     List<Workout> findAllByPrincipal();
 

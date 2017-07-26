@@ -16,7 +16,7 @@ public class Workout {
     private int sets;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name="workout_id")
+    @JoinColumn(name = "workout_id")
     private Set<Exercise> exercises;
 
     public Workout() {

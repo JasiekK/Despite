@@ -24,12 +24,12 @@ public class WorkoutController {
     public ResponseEntity<List<Workout>> workout() {
         return workoutService.findAllWorkout()
                 .map(ResponseEntity::ok)
-                .orElseGet(ResponseEntity.notFound()::build);
+                .orElseGet(ResponseEntity.ok()::build);
     }
 
-    @GetMapping("/workouts/{userId}")
-    public ResponseEntity<List<Workout>> workoutById(@PathVariable Long userId) {
-        return workoutService.findByUserId(userId)
+    @GetMapping("/workouts/{workoutsId}")
+    public ResponseEntity<Workout> workoutById(@PathVariable Long workoutsId) {
+        return workoutService.findByWorkoutsId(workoutsId)
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);
     }
