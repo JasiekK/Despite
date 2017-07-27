@@ -20,7 +20,8 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     @Modifying
     @Query("update Exercise e SET e.name =:name, e.orderNumber =:orderNumber where id=:id")
     int updateExercise(@Param("name") String name,
-                       @Param("orderNumber")Integer orderNumber,
-                       @Param("id")Long id);
+                       @Param("orderNumber") Integer orderNumber,
+                       @Param("id") Long id);
 
+    void deleteByIdAndCreatorId(Long Id, Long creatorId);
 }

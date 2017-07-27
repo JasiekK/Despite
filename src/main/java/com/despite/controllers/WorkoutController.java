@@ -45,12 +45,22 @@ public class WorkoutController {
     }
 
     @PutMapping("/workouts/{workoutId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout updated!")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout updated")
     public void updateWorkout(@RequestBody Workout workout, @PathVariable Long workoutId) throws WorkoutNotFound {
-        if(workoutService.findByWorkoutsId(workoutId).isPresent()){
+        if (workoutService.findByWorkoutsId(workoutId).isPresent()) {
             workoutService.updateWorkout(workout);
-        }else {
-            throw new WorkoutNotFound(String.format("Workout not found, workout id%d", workoutId));
+        } else {
+            throw new WorkoutNotFound(String.format("Workout not found, workout_id: %d", workoutId));
+        }
+    }
+
+    @DeleteMapping("/workouts/{workoutId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout deleted")
+    public void deleteWorkout(@PathVariable Long workoutId, Principal principal) throws WorkoutNotFound {
+        if (workoutService.findByWorkoutsId(workoutId).isPresent()) {
+            workoutService.delete(workoutId, principal);
+        } else {
+            throw new WorkoutNotFound(String.format("Workout not found, workout_id: %d", workoutId));
         }
     }
 }

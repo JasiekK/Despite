@@ -126,7 +126,30 @@ public class WorkoutControllerTest {
                 .contentType("application/json;charset=UTF-8")
                 .content(gson.toJson(workout)))
 
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andExpect(status().reason("workout updated"));
+    }
 
+    @Test
+    @WithMockUser(username = "user", password = "user")
+    public void shouldReturn404WhenTryDeleteWorkoutWhichDoNotExist() throws Exception {
+
+        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.empty());
+        mockMvc.perform(delete("/api/workouts/{workoutId}", 1L)
+                .contentType("application/json;charset=UTF-8"))
+
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user")
+    public void shouldReturn204WhenDeleteWorkout() throws Exception {
+
+        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.of(workout));
+        mockMvc.perform(delete("/api/workouts/{workoutId}", 1L)
+                .contentType("application/json;charset=UTF-8"))
+
+                .andExpect(status().isNoContent())
+                .andExpect(status().reason("workout deleted"));
     }
 }

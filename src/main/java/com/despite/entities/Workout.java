@@ -15,7 +15,7 @@ public class Workout {
     private User creator;
     private int sets;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JoinColumn(name = "workout_id")
     private Set<Exercise> exercises;
 

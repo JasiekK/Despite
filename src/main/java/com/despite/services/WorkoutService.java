@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
@@ -49,5 +48,11 @@ public class WorkoutService implements IWorkoutService {
     @Override
     public void updateWorkout(Workout workout) {
         workoutRepository.save(workout);
+    }
+
+    @Override
+    public void delete(Long workoutId, Principal principal) {
+        Long id = principalResolver.getUser(principal).getId();
+        workoutRepository.deleteByIdAndCreatorId(workoutId, id);
     }
 }

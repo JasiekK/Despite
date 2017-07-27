@@ -11,4 +11,5 @@ public interface IWorkoutService {
     Optional<Workout> findByWorkoutsId(Long workoutsId);
     Optional<List<Workout>> findAllWorkout();
     void updateWorkout(Workout workout);
+    void delete(Long workoutId, Principal creatorId);
 }
