@@ -55,4 +55,9 @@ public class WorkoutService implements IWorkoutService {
         Long id = principalResolver.getUser(principal).getId();
         workoutRepository.deleteByIdAndCreatorId(workoutId, id);
     }
+
+    @Override
+    public boolean checkIfExist(Long workoutId) {
+        return workoutRepository.exists(workoutId);
+    }
 }

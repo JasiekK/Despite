@@ -108,7 +108,7 @@ public class WorkoutControllerTest {
     @WithMockUser(username = "user", password = "user")
     public void shouldReturn404WhenTryUpdateWorkoutWhichDoNotExist() throws Exception {
 
-        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.empty());
+        given(workoutService.checkIfExist(anyLong())).willReturn(false);
         mockMvc.perform(put("/api/workouts/{workoutId}", 1L)
                 .contentType("application/json;charset=UTF-8")
                 .content(gson.toJson(workout)))
@@ -121,7 +121,7 @@ public class WorkoutControllerTest {
     @WithMockUser(username = "user", password = "user")
     public void shouldReturn204WhenUpdateWorkout() throws Exception {
 
-        given(workoutService.findByWorkoutsId((anyLong()))).willReturn(Optional.of(workout));
+        given(workoutService.checkIfExist((anyLong()))).willReturn(true);
         mockMvc.perform(put("/api/workouts/{workoutId}", 1L)
                 .contentType("application/json;charset=UTF-8")
                 .content(gson.toJson(workout)))
@@ -134,7 +134,7 @@ public class WorkoutControllerTest {
     @WithMockUser(username = "user", password = "user")
     public void shouldReturn404WhenTryDeleteWorkoutWhichDoNotExist() throws Exception {
 
-        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.empty());
+        given(workoutService.checkIfExist(anyLong())).willReturn(false);
         mockMvc.perform(delete("/api/workouts/{workoutId}", 1L)
                 .contentType("application/json;charset=UTF-8"))
 
@@ -145,7 +145,7 @@ public class WorkoutControllerTest {
     @WithMockUser(username = "user", password = "user")
     public void shouldReturn204WhenDeleteWorkout() throws Exception {
 
-        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.of(workout));
+        given(workoutService.checkIfExist(anyLong())).willReturn(true);
         mockMvc.perform(delete("/api/workouts/{workoutId}", 1L)
                 .contentType("application/json;charset=UTF-8"))
 
