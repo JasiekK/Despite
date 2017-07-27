@@ -26,6 +26,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
@@ -67,16 +71,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.httpcomponents</groupId>-->
-            <!--<artifactId>httpclient</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>commons-logging</artifactId>-->
-                    <!--<groupId>commons-logging</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
@@ -101,18 +95,6 @@
             <artifactId>HikariCP</artifactId>
             <version>2.6.2</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.rest-assured</groupId>-->
-            <!--<artifactId>rest-assured</artifactId>-->
-            <!--<version>3.0.3</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>io.rest-assured</groupId>-->
-            <!--<artifactId>spring-mock-mvc</artifactId>-->
-            <!--<version>3.0.3</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
     </dependencies>
     <build>
         <plugins>

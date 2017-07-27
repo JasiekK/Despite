@@ -13,7 +13,7 @@ public class Exercise {
     @Column(name = "exercise_order_number")
     private Integer orderNumber;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "exercise_details")
     private ExerciseDetails exerciseDetails;
 
@@ -22,8 +22,11 @@ public class Exercise {
 
     public Exercise(String name, Integer orderNumber) {
         this.name = name;
-
         this.orderNumber = orderNumber;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

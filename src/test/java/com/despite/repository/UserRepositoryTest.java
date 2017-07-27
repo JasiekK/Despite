@@ -30,9 +30,9 @@ public class UserRepositoryTest {
     public void saveNewUser() {
 
         userRepository.save(new User(NAME, "password", Arrays.asList(new Role("ROLE_USER"))));
-        User user = userRepository.findByUserName(NAME);
+        User user = userRepository.findByUsername(NAME);
 
-        assertEquals("Name is incorrect !", NAME, user.getUserName());
+        assertEquals("Name is incorrect !", NAME, user.getUsername());
     }
 
 }

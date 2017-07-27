@@ -15,8 +15,8 @@ public class Workout {
     private User creator;
     private int sets;
 
-    @OneToMany
-    @JoinColumn(name="workout_id")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "workout_id")
     private Set<Exercise> exercises;
 
     public Workout() {
@@ -27,6 +27,10 @@ public class Workout {
         this.creator = creator;
         this.sets = sets;
         this.exercises = exercises;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

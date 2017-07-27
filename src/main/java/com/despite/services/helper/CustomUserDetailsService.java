@@ -1,4 +1,4 @@
-package com.despite.config;
+package com.despite.services.helper;
 
 import com.despite.entities.Role;
 import com.despite.entities.User;
@@ -27,12 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = Optional.ofNullable(userRepository.findByUserName(userName));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = Optional.ofNullable(userRepository.findByUsername(username));
         if (user.isPresent()) {
             return new CustomUserDetails(user.get());
         } else {
-            throw new UsernameNotFoundException("Could not find user :" + userName);
+            throw new UsernameNotFoundException("Could not find user :" + username);
         }
     }
 
@@ -62,11 +62,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         @Override
-        public String getUsername() {
-            return getUserName();
-        }
-
-        @Override
         public boolean isAccountNonExpired() {
             return true;
         }
@@ -85,6 +80,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         public boolean isEnabled() {
             return true;
         }
-        
+
     }
 }

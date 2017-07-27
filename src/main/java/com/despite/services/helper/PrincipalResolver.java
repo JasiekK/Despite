@@ -19,6 +19,6 @@ public class PrincipalResolver implements IPrincipalResolver{
 
     @Override
     public User getUser(Principal principal) {
-        return (userRepository.findByUserName(principal.getName()));
+        return userRepository.findByUsername(principal.getName());
     }
 }
