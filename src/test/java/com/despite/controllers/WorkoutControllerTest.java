@@ -22,9 +22,9 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyLong;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Matchers.anyObject;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(WorkoutController.class)
@@ -45,8 +45,8 @@ public class WorkoutControllerTest {
 
         gson = new Gson();
 
-        workout = new Workout("Name",
-                new User("workout shouldReturn200WhenWorkoutExist", "password", Arrays.asList(new Role("USER"))),
+        workout = new Workout("WorkoutName",
+                new User("userName", "password", Arrays.asList(new Role("USER"))),
                 5,
                 new HashSet<>(Arrays.asList(
                         new Exercise("e1", 1),
@@ -89,5 +89,44 @@ public class WorkoutControllerTest {
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(workout)));
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user")
+    public void shouldReturn201WhenInsertNewWorkout() throws Exception {
+
+        given(workoutService.insert(anyObject(), anyObject())).willReturn(Optional.of(1L));
+        mockMvc.perform(post("/api/workouts/")
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(workout)))
+
+                .andExpect(status().isCreated())
+                .andExpect(redirectedUrl("http://localhost/api/workouts/1"));
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user")
+    public void shouldReturn404WhenTryUpdateWorkoutWhichDoNotExist() throws Exception {
+
+        given(workoutService.findByWorkoutsId(anyLong())).willReturn(Optional.empty());
+        mockMvc.perform(put("/api/workouts/{workoutId}", 1L)
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(workout)))
+
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user")
+    public void shouldReturn204WhenUpdateWorkout() throws Exception {
+
+        given(workoutService.findByWorkoutsId((anyLong()))).willReturn(Optional.of(workout));
+        mockMvc.perform(put("/api/workouts/{workoutId}", 1L)
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(workout)))
+
+                .andExpect(status().isNoContent());
+
     }
 }

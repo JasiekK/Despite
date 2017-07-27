@@ -47,10 +47,7 @@ public class WorkoutService implements IWorkoutService {
     }
 
     @Override
-    public void updateWorkout(Workout workout, Long workoutId) {
-        if (Optional.ofNullable(workoutRepository.findOne(workout.getId())).isPresent())
-            workoutRepository.save(workout);
-        else
-            throw new EntityNotFoundException(String.format("Workout with ID %d not exist!", workoutId));
+    public void updateWorkout(Workout workout) {
+        workoutRepository.save(workout);
     }
 }
