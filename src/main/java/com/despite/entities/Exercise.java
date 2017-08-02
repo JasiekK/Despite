@@ -10,19 +10,12 @@ public class Exercise {
     private Long id;
     private String name;
 
-    @Column(name = "exercise_order_number")
-    private Integer orderNumber;
-
-    @OneToOne()
-    @JoinColumn(name = "exercise_details")
-    private ExerciseDetails exerciseDetails;
 
     public Exercise() {
     }
 
-    public Exercise(String name, Integer orderNumber) {
+    public Exercise(String name) {
         this.name = name;
-        this.orderNumber = orderNumber;
     }
 
     public Long getId() {
@@ -37,11 +30,4 @@ public class Exercise {
         this.name = name;
     }
 
-    public Integer getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
-    }
 }

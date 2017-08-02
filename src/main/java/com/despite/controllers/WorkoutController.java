@@ -46,9 +46,9 @@ public class WorkoutController {
 
     @PutMapping("/workouts/{workoutId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout updated")
-    public void updateWorkout(@RequestBody Workout workout, @PathVariable Long workoutId) throws WorkoutNotFound {
+    public void updateWorkout(@RequestBody Workout workout, @PathVariable Long workoutId, Principal principal) throws WorkoutNotFound {
         if (workoutService.checkIfExist(workoutId)) {
-            workoutService.updateWorkout(workout);
+            workoutService.updateWorkout(workout, principal);
         } else {
             throw new WorkoutNotFound(String.format("Workout not found, workout_id: %d", workoutId));
         }

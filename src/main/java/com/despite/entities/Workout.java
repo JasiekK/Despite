@@ -17,16 +17,16 @@ public class Workout {
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JoinColumn(name = "workout_id")
-    private Set<Exercise> exercises;
+    private Set<WorkoutDetails> workoutDetails;
 
     public Workout() {
     }
 
-    public Workout(String name, User creator, int sets, Set<Exercise> exercises) {
+    public Workout(String name, User creator, int sets, Set<WorkoutDetails> workoutDetails) {
         this.name = name;
         this.creator = creator;
         this.sets = sets;
-        this.exercises = exercises;
+        this.workoutDetails = workoutDetails;
     }
 
     public Long getId() {
@@ -39,6 +39,14 @@ public class Workout {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<WorkoutDetails> getWorkoutDetails() {
+        return workoutDetails;
+    }
+
+    public void setWorkoutDetails(Set<WorkoutDetails> workoutDetails) {
+        this.workoutDetails = workoutDetails;
     }
 
     public User getCreator() {
@@ -55,14 +63,6 @@ public class Workout {
 
     public void setSets(int sets) {
         this.sets = sets;
-    }
-
-    public Set<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public void setExercises(Set<Exercise> exercises) {
-        this.exercises = exercises;
     }
 
 }

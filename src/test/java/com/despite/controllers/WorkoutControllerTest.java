@@ -1,9 +1,6 @@
 package com.despite.controllers;
 
-import com.despite.entities.Exercise;
-import com.despite.entities.Role;
-import com.despite.entities.User;
-import com.despite.entities.Workout;
+import com.despite.entities.*;
 import com.despite.services.IWorkoutService;
 import com.google.gson.Gson;
 import org.junit.Before;
@@ -44,16 +41,18 @@ public class WorkoutControllerTest {
     public void setUp() throws Exception {
 
         gson = new Gson();
+        HashSet<WorkoutDetails> hashSet = new HashSet<>();
+
+        hashSet.add(new WorkoutDetails(new Exercise("e1"),1));
+        hashSet.add(new WorkoutDetails(new Exercise("e2"),2));
+        hashSet.add(new WorkoutDetails(new Exercise("e3"),3));
+        hashSet.add(new WorkoutDetails(new Exercise("e4"),4));
 
         workout = new Workout("WorkoutName",
                 new User("userName", "password", Arrays.asList(new Role("USER"))),
-                5,
-                new HashSet<>(Arrays.asList(
-                        new Exercise("e1", 1),
-                        new Exercise("e2", 2),
-                        new Exercise("e3", 3),
-                        new Exercise("e4", 4)))
+                5, hashSet
         );
+
     }
 
     @Test

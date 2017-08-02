@@ -68,9 +68,4 @@ public class DaoConfig {
 
         return hibernateProperties;
     }
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 }

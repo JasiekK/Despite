@@ -1,6 +1,7 @@
 package com.despite.services;
 
 import com.despite.entities.Workout;
+import com.despite.repository.ExerciseRepository;
 import com.despite.repository.WorkoutRepository;
 
 import com.despite.services.helper.PrincipalResolver;
@@ -21,17 +22,22 @@ public class WorkoutService implements IWorkoutService {
     private final Logger log = LogManager.getLogger(WorkoutService.class);
 
     private WorkoutRepository workoutRepository;
+    private ExerciseRepository exerciseRepository;
     private PrincipalResolver principalResolver;
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, PrincipalResolver principalResolver) {
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseRepository exerciseRepository, PrincipalResolver principalResolver) {
         this.workoutRepository = workoutRepository;
+        this.exerciseRepository = exerciseRepository;
         this.principalResolver = principalResolver;
     }
 
     @Override
     public Optional<Long> insert(Workout workout, Principal principal) {
         workout.setCreator(principalResolver.getUser(principal));
+        workout.getWorkoutDetails().forEach(workoutDetails ->
+            exerciseRepository.save(workoutDetails.getExercise())
+        );
         return Optional.ofNullable(workoutRepository.save(workout).getId());
     }
 
@@ -46,7 +52,11 @@ public class WorkoutService implements IWorkoutService {
     }
 
     @Override
-    public void updateWorkout(Workout workout) {
+    public void updateWorkout(Workout workout, Principal principal) {
+        workout.setCreator(principalResolver.getUser(principal));
+        workout.getWorkoutDetails().forEach(workoutDetails ->
+                exerciseRepository.save(workoutDetails.getExercise())
+        );
         workoutRepository.save(workout);
     }
 
