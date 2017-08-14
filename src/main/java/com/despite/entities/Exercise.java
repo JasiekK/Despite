@@ -1,6 +1,7 @@
 package com.despite.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Exercise {
@@ -8,6 +9,7 @@ public class Exercise {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String name;
 
 

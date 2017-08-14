@@ -1,6 +1,8 @@
 package com.despite.entities;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -9,10 +11,11 @@ public class Workout {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String name;
-
     @ManyToOne
     private User creator;
+    @NotNull
     private int sets;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)

@@ -1,6 +1,7 @@
 package com.despite.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class WorkoutDetails {
@@ -14,6 +15,7 @@ public class WorkoutDetails {
     private Exercise exercise;
 
     @Column(name = "exercise_order_number")
+    @NotNull
     private Integer orderNumber;
 
     public WorkoutDetails() {
