@@ -10,7 +10,7 @@ public class WorkoutDetails {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 

@@ -27,7 +27,7 @@ public class WorkoutController {
     public ResponseEntity<List<Workout>> workout() {
         return workoutService.findAllWorkout()
                 .map(ResponseEntity::ok)
-                .orElseGet(ResponseEntity.ok()::build);
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
     @GetMapping("/workouts/{workoutsId}")
