@@ -2,7 +2,6 @@ package com.despite.services;
 
 import com.despite.entities.Exercise;
 import com.despite.repository.ExerciseRepository;
-import com.despite.repository.WorkoutDetailsRepository;
 import com.despite.services.helper.PrincipalResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

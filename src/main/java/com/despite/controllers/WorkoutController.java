@@ -3,7 +3,6 @@ package com.despite.controllers;
 import com.despite.entities.Workout;
 import com.despite.entities.helper.WorkoutNotFound;
 import com.despite.services.IWorkoutService;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;

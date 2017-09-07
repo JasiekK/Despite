@@ -4,7 +4,6 @@ import com.despite.entities.*;
 import com.despite.services.IWorkoutService;
 import com.google.gson.Gson;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(WorkoutController.class)
-@Ignore
 public class WorkoutControllerTest {
 
     @Autowired

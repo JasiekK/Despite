@@ -19,7 +19,6 @@ public class ExerciseController {
 
     @Autowired
     private IExerciseService exerciseService;
-    private IWorkoutService workoutService;
 
     @GetMapping("/exercises")
     public ResponseEntity<List<Exercise>> getExercises() {
