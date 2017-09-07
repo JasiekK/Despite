@@ -1,5 +1,6 @@
 package com.despite.services;
 
+import com.despite.entities.User;
 import com.despite.entities.Workout;
 import com.despite.repository.ExerciseRepository;
 import com.despite.repository.WorkoutRepository;
@@ -34,10 +35,13 @@ public class WorkoutService implements IWorkoutService {
 
     @Override
     public Optional<Long> insert(Workout workout, Principal principal) {
-        workout.setCreator(principalResolver.getUser(principal));
-        workout.getWorkoutDetails().forEach(workoutDetails ->
-            exerciseRepository.save(workoutDetails.getExercise())
-        );
+        User user = principalResolver.getUser(principal);
+        workout.setCreator(user);
+        workout.getWorkoutDetails().forEach(workoutDetails ->{
+            workoutDetails.getExercise().setCreator(user);
+            exerciseRepository.save(workoutDetails.getExercise());
+
+        });
         return Optional.ofNullable(workoutRepository.save(workout).getId());
     }
 

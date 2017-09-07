@@ -1,5 +1,6 @@
 package com.despite.repository;
 
+import com.despite.entities.Exercise;
 import com.despite.entities.Workout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
