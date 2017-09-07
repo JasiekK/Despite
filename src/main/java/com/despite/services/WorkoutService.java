@@ -56,16 +56,7 @@ public class WorkoutService implements IWorkoutService {
     }
 
     @Override
-    public void updateWorkout(Workout workout, Principal principal) {
-        workout.setCreator(principalResolver.getUser(principal));
-        workout.getWorkoutDetails().forEach(workoutDetails ->
-                exerciseRepository.save(workoutDetails.getExercise())
-        );
-        workoutRepository.save(workout);
-    }
-
-    @Override
-    public void delete(Long workoutId, Principal principal) {
+    public void deleteWorkoutByIdAndPrincipal(Long workoutId, Principal principal) {
         Long id = principalResolver.getUser(principal).getId();
         workoutRepository.deleteByIdAndCreatorId(workoutId, id);
     }

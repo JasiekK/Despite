@@ -19,4 +19,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     @Query(value = "SELECT e.id,e.name,e.creator_id FROM Exercise e JOIN WorkoutDetails wd ON e.id = wd.exercise_id AND wd.workout_id = ?1 AND e.id = ?2", nativeQuery = true)
     Exercise findExerciseByIdAndWorkoutId(Long workoutId, Long exercisesId);
+
+    void deleteByIdAndCreatorId(Long exerciseId, Long userId);
 }

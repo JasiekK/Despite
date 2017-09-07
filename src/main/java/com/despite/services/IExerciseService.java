@@ -13,4 +13,6 @@ public interface IExerciseService {
     Optional<Exercise> findExerciseById(Long exerciseId);
     Optional<Long> insert(Exercise exercise, Principal principal);
     Optional<Exercise> findExerciseByIdAndWorkoutId(Long workoutId, Long exercisesId);
+    boolean checkIfExist(Long exerciseId);
+    void deleteExerciseByIdPrincipal(Long exerciseId, Principal principal);
 }

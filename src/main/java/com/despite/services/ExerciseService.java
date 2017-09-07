@@ -45,5 +45,15 @@ public class ExerciseService implements IExerciseService {
         return Optional.ofNullable(exerciseRepository.findExerciseByIdAndWorkoutId(workoutId, exercisesId));
     }
 
+    @Override
+    public boolean checkIfExist(Long exerciseId) {
+        return exerciseRepository.exists(exerciseId);
+    }
+
+    @Override
+    public void deleteExerciseByIdPrincipal(Long exerciseId, Principal principal) {
+        Long userId = principalResolver.getUser(principal).getId();
+        exerciseRepository.deleteByIdAndCreatorId(exerciseId, userId);
+    }
 
 }

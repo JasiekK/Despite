@@ -46,7 +46,7 @@ public class WorkoutController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout updated")
     public void updateWorkout(@RequestBody Workout workout, @PathVariable Long workoutId, Principal principal) throws WorkoutNotFound {
         if (workoutService.checkIfExist(workoutId)) {
-            workoutService.updateWorkout(workout, principal);
+            workoutService.insert(workout, principal);
         } else {
             throw new WorkoutNotFound(String.format("Workout not found, workout_id: %d", workoutId));
         }
@@ -56,7 +56,7 @@ public class WorkoutController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout deleted")
     public void deleteWorkout(@PathVariable Long workoutId, Principal principal) throws WorkoutNotFound {
         if (workoutService.checkIfExist(workoutId)) {
-            workoutService.delete(workoutId, principal);
+            workoutService.deleteWorkoutByIdAndPrincipal(workoutId, principal);
         } else {
             throw new WorkoutNotFound(String.format("Workout not found, workout_id: %d", workoutId));
         }
