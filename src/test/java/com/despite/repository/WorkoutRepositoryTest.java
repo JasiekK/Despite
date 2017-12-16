@@ -23,18 +23,13 @@ public class WorkoutRepositoryTest {
     @Autowired
     private WorkoutRepository workoutRepository;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
     public void test() {
         HashSet<WorkoutDetails> hash = new HashSet<>();
 
         Exercise exercise = exerciseRepository.save(new Exercise("exercise"));
 
-        hash.add(new WorkoutDetails(exercise,1));
+        hash.add(new WorkoutDetails(exercise, 1));
         Workout workout = new Workout("Nazwa treningu",
                 new User("Imie", "haslo", Arrays.asList(new Role("USER"))),
                 5, hash

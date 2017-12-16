@@ -43,10 +43,10 @@ public class WorkoutControllerTest {
         gson = new Gson();
         HashSet<WorkoutDetails> hashSet = new HashSet<>();
 
-        hashSet.add(new WorkoutDetails(new Exercise("e1"),1));
-        hashSet.add(new WorkoutDetails(new Exercise("e2"),2));
-        hashSet.add(new WorkoutDetails(new Exercise("e3"),3));
-        hashSet.add(new WorkoutDetails(new Exercise("e4"),4));
+        hashSet.add(new WorkoutDetails(new Exercise("e1"), 1));
+        hashSet.add(new WorkoutDetails(new Exercise("e2"), 2));
+        hashSet.add(new WorkoutDetails(new Exercise("e3"), 3));
+        hashSet.add(new WorkoutDetails(new Exercise("e4"), 4));
 
         workout = new Workout("WorkoutName",
                 new User("userName", "password", Arrays.asList(new Role("USER"))),
