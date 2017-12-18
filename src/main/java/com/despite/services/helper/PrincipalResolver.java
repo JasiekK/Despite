@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 
 @Service
-public class PrincipalResolver implements IPrincipalResolver{
+public class PrincipalResolver implements IPrincipalResolver {
 
     private UserRepository userRepository;
 

@@ -10,9 +10,14 @@ import java.util.Optional;
 
 public interface IExerciseService {
     Optional<List<Exercise>> findAllExercise();
+
     Optional<Exercise> findExerciseById(Long exerciseId);
+
     Optional<Long> insert(Exercise exercise, Principal principal);
+
     Optional<Exercise> findExerciseByIdAndWorkoutId(Long workoutId, Long exercisesId);
+
     boolean checkIfExist(Long exerciseId);
+
     void deleteExerciseByIdPrincipal(Long exerciseId, Principal principal);
 }

@@ -1,7 +1,7 @@
 package com.despite.controllers;
 
 import com.despite.entities.Workout;
-import com.despite.entities.helper.WorkoutNotFound;
+import com.despite.entities.helper.exception.WorkoutNotFound;
 import com.despite.services.IWorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

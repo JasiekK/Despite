@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     private UserRepository userRepository;
 
@@ -19,12 +19,12 @@ public class UserService implements IUserService{
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
-    public void save(User user){
+    public void save(User user) {
         user.setPassword(getPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }

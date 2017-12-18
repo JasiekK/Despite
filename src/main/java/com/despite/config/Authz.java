@@ -10,7 +10,7 @@ public class Authz {
         return userId.equals(user.getId());
     }
 
-    public boolean check(String userId, String principal){
+    public boolean check(String userId, String principal) {
         return userId.equals(principal);
     }
 }

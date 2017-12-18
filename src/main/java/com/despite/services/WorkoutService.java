@@ -37,7 +37,7 @@ public class WorkoutService implements IWorkoutService {
     public Optional<Long> insert(Workout workout, Principal principal) {
         User user = principalResolver.getUser(principal);
         workout.setCreator(user);
-        workout.getWorkoutDetails().forEach(workoutDetails ->{
+        workout.getWorkoutDetails().forEach(workoutDetails -> {
             workoutDetails.getExercise().setCreator(user);
             exerciseRepository.save(workoutDetails.getExercise());
 

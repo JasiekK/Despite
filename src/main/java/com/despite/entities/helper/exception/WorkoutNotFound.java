@@ -1,11 +1,11 @@
-package com.despite.entities.helper;
+package com.despite.entities.helper.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ExerciseNotFound extends Exception {
-    public ExerciseNotFound(String message) {
+public class WorkoutNotFound extends Exception {
+    public WorkoutNotFound(String message) {
         super(message);
     }
 }

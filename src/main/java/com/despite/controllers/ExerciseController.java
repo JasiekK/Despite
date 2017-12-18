@@ -1,7 +1,7 @@
 package com.despite.controllers;
 
 import com.despite.entities.Exercise;
-import com.despite.entities.helper.ExerciseNotFound;
+import com.despite.entities.helper.exception.ExerciseNotFound;
 import com.despite.services.IExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,7 +65,7 @@ public class ExerciseController {
     public void deleteExercise(@PathVariable Long exerciseId, Principal principal) throws ExerciseNotFound {
         if (exerciseService.checkIfExist(exerciseId)) {
             exerciseService.deleteExerciseByIdPrincipal(exerciseId, principal);
-        }else {
+        } else {
             throw new ExerciseNotFound(String.format("Workout not found, workout_id: %d", exerciseId));
         }
     }
