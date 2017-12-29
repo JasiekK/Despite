@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
 
-
 @SpringBootTest
 class UserRepositorySpec extends Specification {
 
