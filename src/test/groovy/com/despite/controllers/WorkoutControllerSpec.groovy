@@ -1,7 +1,7 @@
 package com.despite.controllers
 
 import com.despite.entities.Workout
-import com.despite.services.helper.WithCustomUser
+import com.despite.config.helper.WithCustomUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -27,7 +27,6 @@ class WorkoutControllerSpec extends Specification {
 
     @Autowired
     WebApplicationContext context
-
 
     def "Get list of workout without basic auth should not be possible"() {
 

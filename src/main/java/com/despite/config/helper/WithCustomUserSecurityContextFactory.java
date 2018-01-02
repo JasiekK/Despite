@@ -1,4 +1,4 @@
-package com.despite.services.helper;
+package com.despite.config.helper;
 
 import com.despite.entities.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

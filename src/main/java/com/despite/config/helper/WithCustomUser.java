@@ -1,4 +1,4 @@
-package com.despite.services.helper;
+package com.despite.config.helper;
 
 import org.springframework.security.test.context.support.WithSecurityContext;
 
