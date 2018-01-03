@@ -22,6 +22,7 @@ import spock.lang.Specification
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 
 @SpringBootTest
 class WorkoutControllerSpec extends Specification {
@@ -96,6 +97,52 @@ class WorkoutControllerSpec extends Specification {
 
         and: "id's should be equal"
         gson.fromJson(mvcResultById.response.getContentAsString(), Workout).id == id
+    }
+
+    @WithMockUser
+    def "Create new workout save then try to modify"() {
+
+        setup: "create and post new workout"
+        MvcResult mvcResult = mvc.perform(post(PATH)
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(workout)))
+                .andReturn()
+
+        when: "response status should be - created : 201 "
+        mvcResult.response.status == 201
+
+        and: "get workout id from response headers"
+        Long id = getIdFromUri(mvcResult.response.headers.get("Location").value)
+
+        then: "get this workout by id"
+        def pathAndId = PATH + "/" + id.toString()
+        MvcResult mvcGetResult = mvc.perform(get(pathAndId)).andReturn()
+
+        and: "response status should be ok - 200"
+        mvcGetResult.response.status == 200
+
+        and: "update workout"
+        Workout updatedWorkout = gson.fromJson(mvcGetResult.response.getContentAsString(), Workout)
+        updatedWorkout.setSets(999)
+        updatedWorkout.setName("test name")
+
+        then: "put updated workout"
+        MvcResult mvcPUTResult = mvc
+                .perform(put(pathAndId)
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(updatedWorkout)))
+                .andReturn()
+
+        and: "response status should be NO CONTENT"
+        mvcPUTResult.response.status == 204
+
+        then: "get updated workout by id"
+        MvcResult mvcGetResultAfterUpdated = mvc.perform(get(pathAndId)).andReturn()
+        Workout workoutAfterUpdated = gson.fromJson(mvcGetResultAfterUpdated.response.getContentAsString(), Workout)
+
+        and: "sets and name should be changed"
+        workoutAfterUpdated.getSets() == 999
+        workoutAfterUpdated.getName() == "test name"
     }
 
     private static Workout populateWorkout() {
