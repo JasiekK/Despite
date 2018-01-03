@@ -69,4 +69,14 @@ public class Workout {
         this.sets = sets;
     }
 
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creator=" + creator +
+                ", sets=" + sets +
+                ", workoutDetails=" + workoutDetails +
+                '}';
+    }
 }
