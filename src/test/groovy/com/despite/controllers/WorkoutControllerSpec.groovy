@@ -1,11 +1,9 @@
 package com.despite.controllers
 
-import com.despite.entities.Exercise
-import com.despite.entities.Role
-import com.despite.entities.User
-import com.despite.entities.Workout
 import com.despite.config.helper.WithCustomUser
-import com.despite.entities.WorkoutDetails
+import com.despite.entities.*
+import com.despite.repository.UserRepository
+import com.despite.services.helper.PrincipalResolver
 import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,9 +18,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 
 @SpringBootTest
 class WorkoutControllerSpec extends Specification {
@@ -42,8 +38,14 @@ class WorkoutControllerSpec extends Specification {
     @Shared
     Gson gson = new Gson()
 
+    def userRepository = Mock(UserRepository)
+
+    PrincipalResolver principalResolver
+
     def setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build()
+        principalResolver= new PrincipalResolver(userRepository)
+
         workout = populateWorkout()
     }
 
@@ -133,7 +135,7 @@ class WorkoutControllerSpec extends Specification {
                 .content(gson.toJson(updatedWorkout)))
                 .andReturn()
 
-        and: "response status should be NO CONTENT"
+        and: "response status should be NO CONTENT - 204"
         mvcPUTResult.response.status == 204
 
         then: "get updated workout by id"
@@ -145,6 +147,29 @@ class WorkoutControllerSpec extends Specification {
         workoutAfterUpdated.getName() == "test name"
     }
 
+    @WithMockUser
+    def "Create workout then try to delete"() {
+
+        setup: "create and post new workout"
+        MvcResult mvcResult = mvc.perform(post(PATH)
+                .contentType("application/json;charset=UTF-8")
+                .content(gson.toJson(workout)))
+                .andReturn()
+
+        when: "response status should be - created : 201"
+        mvcResult.response.status == 201
+
+        and: "get workout id from response headers"
+        Long id = getIdFromUri(mvcResult.response.headers.get("Location").value)
+
+        then: "delete workout by id"
+        def pathAndId = PATH + "/" + id.toString()
+        MvcResult mvcGetResult = mvc.perform(delete(pathAndId)).andReturn()
+
+        and: "response status should be NO CONTENT - 204"
+        mvcGetResult.response.status == 204
+    }
+
     private static Workout populateWorkout() {
 
         HashSet<WorkoutDetails> hashSet = new HashSet<>()
@@ -154,8 +179,8 @@ class WorkoutControllerSpec extends Specification {
         hashSet.add(new WorkoutDetails(new Exercise("e4"), 4))
 
         return new Workout("WorkoutName",
-                new User("userName", "password", Arrays.asList(
-                        new Role("USER"))), 5, hashSet)
+                new User("user", "user", Arrays.asList(
+                        new Role("ROLE_USER"))), 5, hashSet)
     }
 
     private static Long getIdFromUri(String url) {
