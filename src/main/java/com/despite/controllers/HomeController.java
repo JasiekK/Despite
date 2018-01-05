@@ -23,8 +23,8 @@ public class HomeController {
     }
 
     @GetMapping(value = "/addtestuser")
-    public void addTestUser() {
-        userService.save(new User("user", "user", Arrays.asList(new Role("USER"))));
+    public User addTestUser() {
+        return userService.save(new User("user", "user", Arrays.asList(new Role("ROLE_USER"))));
     }
 
 }
