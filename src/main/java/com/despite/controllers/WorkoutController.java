@@ -54,7 +54,7 @@ public class WorkoutController {
 
     @DeleteMapping("/workouts/{workoutId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "workout deleted")
-    public void deleteWorkout(@PathVariable Long workoutId, Principal principal) throws WorkoutNotFound {
+    public void deleteWorkout(@PathVariable Long workoutId) throws WorkoutNotFound {
         if (workoutService.checkIfExist(workoutId)) {
             workoutService.deleteWorkoutByIdAndPrincipal(workoutId, principal);
         } else {

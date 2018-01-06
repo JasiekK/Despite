@@ -5,7 +5,6 @@ import com.despite.entities.*
 import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -22,8 +21,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class WorkoutControllerSpec extends Specification {
 
     @Shared
-    String WORKOUT_PATH = 'http://localhost:8080/api/workouts'
-    String USER_PATH = 'http://localhost:8080/addtestuser'
+    def WORKOUT_PATH = 'http://localhost:8080/api/workouts'
+
+    @Shared
+    def USER_PATH = 'http://localhost:8080/addtestuser'
 
     @Shared
     MockMvc mvc
@@ -35,14 +36,15 @@ class WorkoutControllerSpec extends Specification {
     Workout workout
 
     @Shared
-    User user = new User()
+    User user
 
     @Shared
     Gson gson = new Gson()
 
     def setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build()
-        user = gson.fromJson(mvc.perform(get(USER_PATH)).andReturn().getResponse().getContentAsString(), User)
+        user = new User(id: WithCustomUser.annotationType.memberDefaults().get('id'),
+                username: WithCustomUser.annotationType.memberDefaults().get('userName'))
         workout = populateWorkout(user)
     }
 
@@ -65,10 +67,10 @@ class WorkoutControllerSpec extends Specification {
         mvcResult.response.status == 200
 
         and: 'response list of workout should be empty'
-        mvcResult.response.getContentAsString() == [].toString()
+        mvcResult.response.getContentAsString() == [] as String
     }
 
-    @WithMockUser
+    @WithCustomUser
     def 'Create new workout save then try to get this one using find by id method'() {
 
         setup: 'create new workout object'
@@ -81,7 +83,7 @@ class WorkoutControllerSpec extends Specification {
         mvcResult.response.status == 201
 
         and: 'get workout id from response headers'
-        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value.toString())
+        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value as String)
 
         then: 'get workout by id'
         def pathAndId = WORKOUT_PATH + '/' + id.toString()
@@ -94,7 +96,7 @@ class WorkoutControllerSpec extends Specification {
         gson.fromJson(mvcResultById.response.getContentAsString(), Workout).id == id
     }
 
-    @WithMockUser
+    @WithCustomUser
     def 'Create new workout save then try to modify'() {
 
         setup: 'create and post new workout'
@@ -107,7 +109,7 @@ class WorkoutControllerSpec extends Specification {
         mvcResult.response.status == 201
 
         and: 'get workout id from response headers'
-        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value.toString())
+        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value as String)
 
         then: 'get this workout by id'
         def pathAndId = WORKOUT_PATH + '/' + id.toString()
@@ -131,7 +133,7 @@ class WorkoutControllerSpec extends Specification {
         and: 'response status should be NO CONTENT - 204 and reason message - workout updated'
         mvcPUTResult.response.status == 204
         mvcPUTResult.response.errorMessage == 'workout updated'
-        
+
         then: 'get updated workout by id'
         MvcResult mvcGetResultAfterUpdated = mvc.perform(get(pathAndId)).andReturn()
         Workout workoutAfterUpdated = gson.fromJson(mvcGetResultAfterUpdated.response.getContentAsString(), Workout)
@@ -141,7 +143,7 @@ class WorkoutControllerSpec extends Specification {
         workoutAfterUpdated.getName() == 'test name'
     }
 
-    @WithMockUser
+    @WithCustomUser
     def 'Create workout then try to delete'() {
 
         setup: 'create and post new workout'
@@ -154,7 +156,7 @@ class WorkoutControllerSpec extends Specification {
         mvcResult.response.status == 201
 
         and: 'get workout id from response headers'
-        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value.toString())
+        Long id = getIdFromUri(mvcResult.response.headers.get('Location').value as String)
 
         then: 'delete workout by id'
         def pathAndId = WORKOUT_PATH + '/' + id.toString()
@@ -165,7 +167,7 @@ class WorkoutControllerSpec extends Specification {
         mvcDeleteResult.response.errorMessage == 'workout deleted'
     }
 
-    private static Workout populateWorkout(User user) {
+    Workout populateWorkout(User user) {
 
         HashSet<WorkoutDetails> hashSet = new HashSet<>()
         hashSet.add(new WorkoutDetails(new Exercise('e1'), 1))
@@ -173,11 +175,11 @@ class WorkoutControllerSpec extends Specification {
         hashSet.add(new WorkoutDetails(new Exercise('e3'), 3))
         hashSet.add(new WorkoutDetails(new Exercise('e4'), 4))
 
-        return new Workout('WorkoutName', user, 5, hashSet)
+        new Workout('WorkoutName', user, 5, hashSet)
     }
 
-    private static Long getIdFromUri(String url) {
-        return Long.parseLong(url.substring(url.lastIndexOf('/') + 1))
+    Long getIdFromUri(String url) {
+        Long.parseLong(url.substring(url.lastIndexOf('/') + 1))
     }
 
 }

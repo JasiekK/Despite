@@ -13,7 +13,7 @@ public interface IWorkoutService {
 
     Optional<List<Workout>> findAllWorkout();
 
-    void deleteWorkoutByIdAndPrincipal(Long workoutId, Principal creatorId);
+    void deleteWorkoutByIdAndPrincipal(Long workoutId);
 
     boolean checkIfExist(Long workoutId);
 }

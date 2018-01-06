@@ -56,9 +56,8 @@ public class WorkoutService implements IWorkoutService {
     }
 
     @Override
-    public void deleteWorkoutByIdAndPrincipal(Long workoutId, Principal principal) {
-        Long id = principalResolver.getUser(principal).getId();
-        workoutRepository.deleteByIdAndCreatorId(workoutId, id);
+    public void deleteWorkoutByIdAndPrincipal(Long workoutId) {
+        workoutRepository.deleteByIdAndCreatorId(workoutId);
     }
 
     @Override

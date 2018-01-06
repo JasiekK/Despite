@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @WithSecurityContext(factory = WithCustomUserSecurityContextFactory.class)
 public @interface WithCustomUser {
 
-    String userName() default "name";
+    String userName() default "user";
 
-    long id() default 0L;
+    long id() default 1L;
 }
